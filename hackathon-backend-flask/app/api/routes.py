@@ -5,6 +5,11 @@ from app.core.validator import validate_data, transform_for_sioma
 from app.core.sioma_client import get_fincas, get_lotes, submit_to_sioma
 
 
+@api_v1.route('/', methods=['GET'])
+def index():
+    return "¡Bienvenido al Backend del Hackathon Urabá 2025!"
+
+
 @api_v1.route('/fincas', methods=['GET'])
 def get_fincas_route():
     """

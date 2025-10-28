@@ -8,4 +8,4 @@ class Config:
     
     # Configuración de la API de Sioma
     SIOMA_API_BASE_URL = os.environ.get('SIOMA_API_BASE_URL', "https://api.sioma.dev")
-    SIOMA_API_TOKEN = os.environ.get('SIOMA_API_TOKEN', "TU_TOKEN_DE_SIOMA_AQUI")
+    SIOMA_API_TOKEN = os.environ.get('SIOMA_API_TOKEN', "PHkRgdWVNhsDjLScW/9zWw==")

@@ -18,6 +18,11 @@ def create_app(config_class=Config):
 
     # Registrar el Blueprint (nuestra API)
     from app.api import bp as api_blueprint
+
+    @app.route('/')
+    def index():
+        return "¡Bienvenido al Hackathon Urabá 2025!"
+
     app.register_blueprint(api_blueprint, url_prefix='/api/v1')
 
     return app
