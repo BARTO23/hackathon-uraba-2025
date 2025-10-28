@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from app.api import api_v1
+from app.api import bp as api_v1
 from app.core.file_reader import read_file
 from app.core.validator import validate_data, transform_for_sioma
 from app.core.sioma_client import get_fincas, get_lotes, submit_to_sioma
