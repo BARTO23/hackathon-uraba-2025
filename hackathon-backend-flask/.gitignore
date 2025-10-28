@@ -1,0 +1,20 @@
+# Entorno virtual de Python
+venv/
+*.venv/
+
+# Archivo de secretos (¡EL MÁS IMPORTANTE!)
+.env
+
+# Archivos de configuración local de Flask
+.flaskenv
+instance/
+
+# Archivos compilados de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos del sistema operativo (Opcional pero recomendado)
+.DS_Store
+Thumbs.db
