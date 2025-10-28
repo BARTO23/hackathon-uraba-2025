@@ -1,6 +1,6 @@
-flask==3.0.0
-flask-cors==4.0.0
-pandas==2.1.4
-openpyxl==3.1.2
-requests==2.31.0
-python-dotenv==1.0.0
+Flask
+pandas
+openpyxl
+requests
+python-dotenv
+flask-cors

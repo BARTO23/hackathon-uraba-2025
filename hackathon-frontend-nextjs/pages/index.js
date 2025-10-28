@@ -1,135 +1,93 @@
-import { useState } from 'react';
-import Head from 'next/head';
-import FileUploader from '../components/FileUploader';
-import FincaSelector from '../components/FincaSelector';
-import MapDisplay from '../components/MapDisplay';
-import styles from '../styles/Home.module.css';
+import { useState, useEffect } from 'react';
 
-export default function Home() {
-  const [fileData, setFileData] = useState(null);
-  const [selectedFinca, setSelectedFinca] = useState(null);
+export default function HomePage() {
+  const [fincas, setFincas] = useState([]);
+  const [selectedFinca, setSelectedFinca] = useState('');
   const [lotes, setLotes] = useState([]);
-  const [markers, setMarkers] = useState([]);
-  const [submitting, setSubmitting] = useState(false);
-  const [submitResult, setSubmitResult] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleFileValidated = (data) => {
-    setFileData(data);
-    console.log('Datos del archivo validados:', data);
-    
-    // Convertir datos a marcadores si tienen coordenadas
-    // TODO: Ajustar según la estructura real de los datos
-    const newMarkers = data
-      .filter(item => item.lat && item.lng)
-      .map(item => ({
-        lat: parseFloat(item.lat),
-        lng: parseFloat(item.lng),
-        title: item.nombre || 'Sin nombre',
-        description: item.descripcion || ''
-      }));
-    
-    setMarkers(newMarkers);
-  };
+  // Cargar Fincas al iniciar
+  useEffect(() => {
+    const fetchFincas = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/fincas`);
+        if (!response.ok) {
+          throw new Error(`Error del servidor: ${response.status}`);
+        }
+        const data = await response.json();
+        setFincas(data);
+      } catch (err) {
+        setError("No se pudo conectar con el backend. ¿Está encendido?");
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchFincas();
+  }, []);
 
-  const handleFincaSelect = (fincaId) => {
-    setSelectedFinca(fincaId);
-  };
-
-  const handleLotesLoad = (lotesData) => {
-    setLotes(lotesData);
-  };
-
-  const handleSubmit = async () => {
-    if (!fileData) {
-      alert('Por favor carga y valida un archivo primero');
+  // Cargar Lotes cuando se selecciona una Finca
+  useEffect(() => {
+    if (!selectedFinca) {
+      setLotes([]);
       return;
     }
-
-    setSubmitting(true);
-    setSubmitResult(null);
-
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/submit`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          finca_id: selectedFinca,
-          data: fileData,
-        }),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setSubmitResult({ success: true, message: 'Datos enviados exitosamente' });
-      } else {
-        setSubmitResult({ success: false, message: result.error || 'Error al enviar datos' });
+    const fetchLotes = async () => {
+      setError(null);
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/lotes/${selectedFinca}`);
+        if (!response.ok) {
+          throw new Error(`Error del servidor: ${response.status}`);
+        }
+        const data = await response.json();
+        setLotes(data);
+      } catch (err) {
+        setError("No se pudieron cargar los lotes.");
+        console.error(err);
       }
-    } catch (err) {
-      setSubmitResult({ success: false, message: 'Error de conexión: ' + err.message });
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    };
+    fetchLotes();
+  }, [selectedFinca]);
 
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Hackathon Urabá 2025</title>
-        <meta name="description" content="Aplicación del Hackathon Urabá 2025" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <main style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
+      <h1>Interfaz Inteligente de Spots</h1>
+      
+      {error && <p style={{ color: 'red' }}><strong>Error:</strong> {error}</p>}
+      
+      <div>
+        <label htmlFor="finca-select">1. Seleccione una Finca:</label>
+        <select
+          id="finca-select"
+          value={selectedFinca}
+          onChange={(e) => setSelectedFinca(e.target.value)}
+          disabled={isLoading}
+        >
+          <option value="">{isLoading ? 'Cargando...' : '---'}</option>
+          {fincas.map((finca) => (
+            <option key={finca.id} value={finca.id}>
+              {finca.nombre}
+            </option>
+          ))}
+        </select>
+      </div>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Hackathon Urabá 2025
-        </h1>
-
-        <p className={styles.description}>
-          Sistema de gestión de datos agrícolas
-        </p>
-
-        <div className={styles.grid}>
-          <div className={styles.card}>
-            <FileUploader onFileValidated={handleFileValidated} />
-          </div>
-
-          <div className={styles.card}>
-            <FincaSelector 
-              onFincaSelect={handleFincaSelect}
-              onLotesLoad={handleLotesLoad}
-            />
-          </div>
+      {selectedFinca && (
+        <div>
+          <h3>Lotes para la finca seleccionada:</h3>
+          <ul>
+            {lotes.length > 0 
+              ? lotes.map((lote) => <li key={lote.id}>{lote.nombre}</li>)
+              : <p>Cargando lotes...</p>
+            }
+          </ul>
         </div>
-
-        <div className={styles.mapSection}>
-          <MapDisplay markers={markers} />
-        </div>
-
-        {fileData && (
-          <div className={styles.submitSection}>
-            <button
-              onClick={handleSubmit}
-              disabled={submitting}
-              className={styles.submitButton}
-            >
-              {submitting ? 'Enviando...' : 'Enviar a Sioma'}
-            </button>
-
-            {submitResult && (
-              <div className={submitResult.success ? styles.successMessage : styles.errorMessage}>
-                {submitResult.message}
-              </div>
-            )}
-          </div>
-        )}
-      </main>
-
-      <footer className={styles.footer}>
-        <p>Hackathon Urabá 2025 - Powered by Next.js & Flask</p>
-      </footer>
-    </div>
+      )}
+      
+      {/* Aquí irían los demás componentes para subir archivo y ver el mapa */}
+    </main>
   );
 }
