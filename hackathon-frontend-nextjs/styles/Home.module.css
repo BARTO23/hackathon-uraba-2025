@@ -1,0 +1,282 @@
+.container {
+  min-height: 100vh;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.main {
+  padding: 3rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.title {
+  margin: 0 0 1rem;
+  line-height: 1.15;
+  font-size: 3rem;
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.description {
+  text-align: center;
+  line-height: 1.5;
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card h2 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+  color: #333;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 0.5rem;
+}
+
+.fileUploader {
+  width: 100%;
+}
+
+.uploadSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.fileInput {
+  padding: 0.5rem;
+  border: 2px dashed #667eea;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.fileInput:hover {
+  border-color: #764ba2;
+}
+
+.fileName {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.uploadButton,
+.submitButton {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.uploadButton:hover,
+.submitButton:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+.uploadButton:disabled,
+.submitButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.errorMessage {
+  background: #fee;
+  color: #c33;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  border-left: 4px solid #c33;
+}
+
+.successMessage {
+  background: #efe;
+  color: #3c3;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  border-left: 4px solid #3c3;
+}
+
+.fincaSelector {
+  width: 100%;
+}
+
+.selectContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.select {
+  padding: 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.select:hover {
+  border-color: #667eea;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #764ba2;
+}
+
+.loading {
+  color: #666;
+  font-style: italic;
+  margin: 0;
+}
+
+.lotesInfo {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.lotesInfo h3 {
+  margin: 0 0 1rem 0;
+  color: #667eea;
+  font-size: 1.1rem;
+}
+
+.lotesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lotesList li {
+  padding: 0.5rem 0;
+  color: #666;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.mapSection {
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.mapContainer {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mapContainer h2 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+  color: #333;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 0.5rem;
+}
+
+.map {
+  height: 500px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid #eee;
+}
+
+.mapPlaceholder {
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  border-radius: 8px;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.noMarkers {
+  text-align: center;
+  color: #999;
+  margin-top: 1rem;
+  font-style: italic;
+}
+
+.submitSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.footer {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  backdrop-filter: blur(10px);
+}
+
+.footer p {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .description {
+    font-size: 1rem;
+  }
+
+  .map {
+    height: 400px;
+  }
+}
