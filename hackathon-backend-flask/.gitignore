@@ -1,6 +1,6 @@
 # Entorno virtual de Python
-env/
-*.env/
+venv/
+*.venv/
 
 # Archivo de secretos (¡EL MÁS IMPORTANTE!)
 .env
