@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { filterByLote, getUniqueLotes } from '../lib/validator';
 import styles from '../styles/Home.module.css';
+import { MdMap, MdChevronRight } from 'react-icons/md';
+import { FaMapMarkerAlt } from 'react-icons/fa';
 
 // Importar el componente del mapa sin SSR
 const MapView = dynamic(() => import('./MapView'), { ssr: false });
@@ -113,7 +115,10 @@ export default function LoteMapViewer({ validData, lotes }) {
 
   return (
     <div className={styles.lotVisualization}>
-      <h2 className={styles.visualizationTitle}>🗺️ Visualización de Lote</h2>
+      <h2 className={styles.visualizationTitle} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <MdMap style={{ color: 'var(--color-primary)' }} />
+        Visualización de Lote
+      </h2>
       <p className={styles.visualizationSubtitle}>
         Selecciona un lote para visualizar y verificar sus puntos de palma y líneas
       </p>
@@ -168,14 +173,18 @@ export default function LoteMapViewer({ validData, lotes }) {
                   className={`${styles.pointItem} ${selectedSpot === idx ? styles.pointItemSelected : ''}`}
                   onClick={() => setSelectedSpot(idx)}
                 >
-                  <span className={styles.pointIcon}>📍</span>
+                  <span className={styles.pointIcon}>
+                    <FaMapMarkerAlt style={{ color: 'var(--color-primary)' }} />
+                  </span>
                   <div className={styles.pointInfo}>
                     <div className={styles.pointId}>
                       Palma ID: {getLoteName(selectedLote)}-{String(spot.posicion).padStart(4, '0')}
                     </div>
                     <div className={styles.pointLine}>Línea ID: {spot.linea}</div>
                   </div>
-                  <span className={styles.pointArrow}>›</span>
+                  <span className={styles.pointArrow}>
+                    <MdChevronRight style={{ fontSize: '1.5rem', color: '#ccc' }} />
+                  </span>
                 </div>
               ))}
               {loteData.length > 20 && (

@@ -6,6 +6,7 @@ import DataProcessingSummary from "../components/DataProcessingSummary";
 import LoteMapViewer from "../components/LoteMapViewer";
 import FileUploader from "../components/FileUploader";
 import styles from "../styles/Home.module.css";
+import { MdAssessment, MdLocationOn } from 'react-icons/md';
 
 export default function HomePage() {
   const [selectedFinca, setSelectedFinca] = useState(null);
@@ -128,7 +129,10 @@ export default function HomePage() {
           {uploadResult && (
             <section className={styles.section}>
               <div className={styles.uploadResult}>
-                <h2>📊 Resultados del Procesamiento</h2>
+                <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <MdAssessment style={{ color: 'var(--color-primary)' }} />
+                  Resultados del Procesamiento
+                </h2>
                 <div className={styles.resultGrid}>
                   <div className={styles.resultCard}>
                     <span className={styles.resultLabel}>Spots Insertados:</span>
@@ -157,7 +161,10 @@ export default function HomePage() {
           {selectedFincaData && lotes.length > 0 && (
             <section className={styles.section}>
               <div className={styles.infoPanel}>
-                <h2>📍 Información de Finca Seleccionada</h2>
+                <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <MdLocationOn style={{ color: 'var(--color-primary)' }} />
+                  Información de Finca Seleccionada
+                </h2>
                 <div className={styles.infoGrid}>
                   <div className={styles.infoItem}>
                     <strong>Finca:</strong> {selectedFincaData.nombre}

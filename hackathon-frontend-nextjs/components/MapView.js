@@ -2,6 +2,11 @@ import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, LayersControl, Marker, Popup, Polyline, Polygon, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import styles from '../styles/Home.module.css';
+import { FaMapMarkerAlt, FaLeaf } from 'react-icons/fa';
+import { MdSpeed, MdMap } from 'react-icons/md';
+import { BiWorld } from 'react-icons/bi';
+import { HiLightningBolt } from 'react-icons/hi';
+import { IoRocketSharp } from 'react-icons/io5';
 
 // Iconos ultra-ligeros para mejor rendimiento
 const createPalmIcon = (isSelected) => {
@@ -82,7 +87,8 @@ export default function MapView({ loteData, lineas, selectedSpot, setSelectedSpo
     <div className={styles.mapPanel}>
       <div className={styles.mapInfo}>
         <span className={styles.mapBadge}>
-          📍 Ubicaciones GPS Reales
+          <FaMapMarkerAlt style={{ marginRight: '0.5rem' }} />
+          Ubicaciones GPS Reales
           {!showingAll && ` (${displayData.length} de ${loteData.length})`}
         </span>
         <span className={styles.mapCoords}>
@@ -91,28 +97,35 @@ export default function MapView({ loteData, lineas, selectedSpot, setSelectedSpo
       </div>
       {canOptimize && (
         <div style={{
-          background: optimizedMode ? '#fef3c7' : '#dbeafe',
+          background: optimizedMode ? '#f0fdf4' : '#fef2f2',
           padding: '0.75rem 1rem',
           fontSize: '0.875rem',
-          borderBottom: optimizedMode ? '1px solid #fbbf24' : '1px solid #3b82f6',
+          borderBottom: optimizedMode ? '2px solid #2A9D8F' : '2px solid #C01B27',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           gap: '1rem'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flex: 1 }}>
-            <span style={{ color: optimizedMode ? '#92400e' : '#1e40af' }}>
-              {optimizedMode 
-                ? `⚡ Modo Optimizado: ${displayData.length} marcadores (Rápido)` 
-                : `🗺️ Modo Completo: ${loteData.length} marcadores (Puede ser lento)`
-              }
+            <span style={{ color: '#212121', fontWeight: '500', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              {optimizedMode ? (
+                <>
+                  <MdSpeed style={{ fontSize: '1.2rem', color: '#2A9D8F' }} />
+                  Modo Optimizado: {displayData.length} marcadores (Rendimiento Rápido)
+                </>
+              ) : (
+                <>
+                  <MdMap style={{ fontSize: '1.2rem', color: '#C01B27' }} />
+                  Modo Completo: {loteData.length} marcadores (Puede ser lento)
+                </>
+              )}
             </span>
           </div>
           <button
             onClick={() => setOptimizedMode(!optimizedMode)}
             style={{
               padding: '0.5rem 1rem',
-              background: optimizedMode ? '#10b981' : '#3b82f6',
+              background: optimizedMode ? '#2A9D8F' : '#C01B27',
               color: 'white',
               border: 'none',
               borderRadius: '6px',
@@ -127,14 +140,26 @@ export default function MapView({ loteData, lineas, selectedSpot, setSelectedSpo
             }}
             onMouseEnter={(e) => {
               e.target.style.transform = 'scale(1.05)';
+              e.target.style.background = optimizedMode ? '#238276' : '#A31721';
               e.target.style.boxShadow = '0 4px 8px rgba(0,0,0,0.15)';
             }}
             onMouseLeave={(e) => {
               e.target.style.transform = 'scale(1)';
+              e.target.style.background = optimizedMode ? '#2A9D8F' : '#C01B27';
               e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
             }}
           >
-            {optimizedMode ? '🚀 Ver Todos' : '⚡ Optimizar'}
+            {optimizedMode ? (
+              <>
+                <IoRocketSharp style={{ fontSize: '1rem' }} />
+                Ver Todos
+              </>
+            ) : (
+              <>
+                <HiLightningBolt style={{ fontSize: '1rem' }} />
+                Optimizar
+              </>
+            )}
           </button>
         </div>
       )}
@@ -212,7 +237,10 @@ export default function MapView({ loteData, lineas, selectedSpot, setSelectedSpo
                     borderBottom: '2px solid #10b981',
                     paddingBottom: '0.5rem'
                   }}>
-                    🌴 Palma {getLoteName(selectedLote)}-{String(spot.posicion).padStart(4, '0')}
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <FaLeaf />
+                      Palma {getLoteName(selectedLote)}-{String(spot.posicion).padStart(4, '0')}
+                    </span>
                   </h3>
                   
                   <div style={{ marginBottom: '0.75rem' }}>
@@ -239,7 +267,10 @@ export default function MapView({ loteData, lineas, selectedSpot, setSelectedSpo
                       fontWeight: '600',
                       color: '#1e40af'
                     }}>
-                      📍 Coordenadas GPS Reales:
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <FaMapMarkerAlt />
+                        Coordenadas GPS Reales:
+                      </span>
                     </p>
                     <p style={{ 
                       margin: '0.25rem 0', 
@@ -265,7 +296,10 @@ export default function MapView({ loteData, lineas, selectedSpot, setSelectedSpo
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{
-                        display: 'inline-block',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.5rem',
                         padding: '0.5rem 1rem',
                         background: '#10b981',
                         color: 'white',
@@ -273,11 +307,11 @@ export default function MapView({ loteData, lineas, selectedSpot, setSelectedSpo
                         borderRadius: '6px',
                         fontSize: '0.875rem',
                         fontWeight: '600',
-                        textAlign: 'center',
                         width: '100%'
                       }}
                     >
-                      🌍 Ver en Google Maps
+                      <BiWorld style={{ fontSize: '1.2rem' }} />
+                      Ver en Google Maps
                     </a>
                   </div>
                 </div>

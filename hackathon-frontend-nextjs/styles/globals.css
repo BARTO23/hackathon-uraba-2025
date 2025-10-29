@@ -1,11 +1,31 @@
+:root {
+  /* Colores de Marca SIOMA */
+  --color-primary: #C01B27; /* Rojo de SIOMA */
+  --color-primary-dark: #A31721; /* Variante más oscura del rojo */
+  --color-accent: #2A9D8F; /* Acento para CTA's (verde-azul contrastante) */
+  --color-success: #5CB85C; /* Para mensajes de éxito o validación */
+  --color-error: #D9534F; /* Para mensajes de error o advertencia */
+  
+  /* Colores de Texto y Fondo */
+  --color-text-dark: #212121; /* Texto principal oscuro */
+  --color-text-light: #FFFFFF; /* Texto claro */
+  --color-gray-subtle: #AAAAAA; /* Texto secundario, bordes sutiles */
+  
+  /* Colores de Fondo */
+  --color-background-base: #FFFFFF; /* Fondo principal */
+  --color-background-secondary: #F5F5F5; /* Fondos de secciones alternas */
+  --color-background-light: #FAFAFA; /* Fondo muy claro */
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--color-background-secondary);
   min-height: 100vh;
+  color: var(--color-text-dark);
 }
 
 a {
@@ -26,7 +46,7 @@ select {
   font-family: inherit;
 }
 
-/* Estilos ultra-ligeros para iconos de palmas - Optimizado para rendimiento */
+/* Estilos ultra-ligeros para iconos de palmas - SIOMA Brand */
 .custom-palm-icon {
   background: none !important;
   border: none !important;
@@ -44,7 +64,7 @@ select {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: #ef4444;
+  background: var(--color-primary); /* Rojo SIOMA */
   border: 2px solid white;
   box-shadow: 0 1px 3px rgba(0,0,0,0.3);
   position: absolute;
@@ -54,12 +74,12 @@ select {
 }
 
 .palm-marker.selected .palm-dot {
-  background: #10b981;
+  background: var(--color-accent); /* Verde-azul SIOMA */
   width: 14px;
   height: 14px;
   top: 1px;
   left: 1px;
-  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.5);
+  box-shadow: 0 2px 6px rgba(42, 157, 143, 0.5);
 }
 
 .palm-marker:hover .palm-dot {
