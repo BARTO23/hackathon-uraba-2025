@@ -1,37 +1,24 @@
 import { useState } from 'react';
-import { uploadSpots, validateCSV } from '../lib/api';
+import { uploadValidatedSpots } from '../lib/api';
 import styles from '../styles/Home.module.css';
+import { MdCloudUpload, MdCheckCircle, MdError, MdOutlineSend } from 'react-icons/md';
 
-export default function FileUploader({ onFileUploaded, selectedFinca }) {
-  const [file, setFile] = useState(null);
+export default function FileUploader({ onFileUploaded, selectedFinca, validData }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [validationInfo, setValidationInfo] = useState(null);
 
-  const handleFileChange = async (e) => {
-    const selectedFile = e.target.files[0];
-    setFile(selectedFile);
-    setError(null);
-    setSuccess(false);
-    setValidationInfo(null);
-
-    // Validar el archivo al seleccionarlo
-    if (selectedFile) {
-      try {
-        const info = await validateCSV(selectedFile);
-        setValidationInfo(info);
-      } catch (err) {
-        setError(err.message);
-        setFile(null);
-      }
-    }
-  };
+  const hasValidData = Array.isArray(validData) && validData.length > 0;
 
   const handleUpload = async () => {
-    if (!file) {
-      setError('Por favor selecciona un archivo');
+    if (!selectedFinca) {
+      setError('Debes seleccionar una finca antes de enviar los datos');
+      return;
+    }
+
+    if (!hasValidData) {
+      setError('No hay datos validados para enviar');
       return;
     }
 
@@ -41,28 +28,22 @@ export default function FileUploader({ onFileUploaded, selectedFinca }) {
     setUploadProgress(0);
 
     try {
-      const response = await uploadSpots(file, (progress) => {
+      const response = await uploadValidatedSpots(validData, selectedFinca, (progress) => {
         setUploadProgress(Math.round(progress));
       });
 
       if (response.status === 'success') {
         setSuccess(true);
         setUploadProgress(100);
-        
+
         if (onFileUploaded) {
           onFileUploaded(response.data);
         }
-
-        // Limpiar el archivo después de un upload exitoso
-        setTimeout(() => {
-          setFile(null);
-          setValidationInfo(null);
-          setSuccess(false);
-          setUploadProgress(0);
-        }, 3000);
+      } else {
+        throw new Error(response.message || 'Error al procesar los datos');
       }
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'Error al enviar los datos');
       setUploadProgress(0);
     } finally {
       setLoading(false);
@@ -71,79 +52,72 @@ export default function FileUploader({ onFileUploaded, selectedFinca }) {
 
   return (
     <div className={styles.fileUploader}>
-      <h2>📤 Cargar Archivo de Spots</h2>
-      
-      <div className={styles.uploadSection}>
-        <input
-          type="file"
-          accept=".csv"
-          onChange={handleFileChange}
-          className={styles.fileInput}
-          disabled={loading}
-        />
-        
-        {file && validationInfo && (
-          <div className={styles.fileInfo}>
-            <p className={styles.fileName}>
-              <strong>📄 {validationInfo.fileName}</strong>
-            </p>
-            <p className={styles.fileDetails}>
-              Filas: {validationInfo.rowCount} | Tamaño: {(validationInfo.fileSize / 1024).toFixed(2)} KB
-            </p>
-          </div>
-        )}
+      <h2 className={styles.sectionTitle}>
+        <MdCloudUpload style={{ color: 'var(--color-primary)' }} />
+        Enviar Datos Validados
+      </h2>
 
-        {loading && uploadProgress > 0 && (
-          <div className={styles.progressBar}>
-            <div 
-              className={styles.progressFill} 
-              style={{ width: `${uploadProgress}%` }}
-            >
-              {uploadProgress}%
+      <div className={styles.validDataInfo}>
+        {hasValidData ? (
+          <div className={styles.dataSummary}>
+            <div className={styles.dataSummaryItem}>
+              <span className={styles.dataSummaryLabel}>Spots listos</span>
+              <span className={styles.dataSummaryValue}>{validData.length}</span>
+            </div>
+            <div className={styles.dataSummaryItem}>
+              <span className={styles.dataSummaryLabel}>Finca seleccionada</span>
+              <span className={styles.dataSummaryValue}>{selectedFinca || 'Sin seleccionar'}</span>
             </div>
           </div>
+        ) : (
+          <p className={styles.noDataMessage}>
+            <MdError />
+            Primero valida un archivo para generar datos limpios.
+          </p>
         )}
-
-        <button
-          onClick={handleUpload}
-          disabled={loading || !file || !validationInfo}
-          className={styles.uploadButton}
-        >
-          {loading ? '⏳ Subiendo...' : '🚀 Subir Spots'}
-        </button>
       </div>
+
+      {loading && (
+        <div className={styles.progressBar}>
+          <div
+            className={styles.progressFill}
+            style={{ width: `${uploadProgress}%` }}
+          >
+            {uploadProgress}%
+          </div>
+        </div>
+      )}
+
+      <button
+        onClick={handleUpload}
+        disabled={loading || !hasValidData || !selectedFinca}
+        className={styles.uploadButton}
+      >
+        <span className={styles.uploadButtonContent}>
+          {loading ? (
+            <>
+              <span className={styles.spinner} /> Cargando...
+            </>
+          ) : (
+            <>
+              <MdOutlineSend /> Enviar a SIOMA
+            </>
+          )}
+        </span>
+      </button>
 
       {error && (
         <div className={styles.errorMessage}>
-          <strong>❌ Error:</strong> {error}
+          <MdError />
+          <span>{error}</span>
         </div>
       )}
 
       {success && (
         <div className={styles.successMessage}>
-          ✅ ¡Archivo procesado exitosamente!
+          <MdCheckCircle /> ¡Datos enviados correctamente!
         </div>
       )}
-
-      <div className={styles.uploadHelp}>
-        <details>
-          <summary>📋 Formato del archivo CSV</summary>
-          <div className={styles.helpContent}>
-            <p><strong>Columnas obligatorias:</strong></p>
-            <ul>
-              <li><code>nombre_spot</code> - Identificador del spot</li>
-              <li><code>lat</code> - Latitud decimal</li>
-              <li><code>lng</code> - Longitud decimal</li>
-              <li><code>lote_id</code> - ID del lote</li>
-              <li><code>linea</code> - Número de línea</li>
-              <li><code>posicion</code> - Posición en la línea</li>
-              <li><code>nombre_planta</code> - Nombre de la planta</li>
-              <li><code>finca_id</code> - ID de la finca</li>
-            </ul>
-            <p><strong>Nota:</strong> Todas las filas deben pertenecer a la misma finca.</p>
-          </div>
-        </details>
-      </div>
     </div>
   );
 }

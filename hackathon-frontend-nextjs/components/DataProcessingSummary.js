@@ -1,4 +1,6 @@
 import styles from '../styles/Home.module.css';
+import { MdAssessment, MdTerrain, MdCheckCircle, MdError, MdOutlineGridView, MdOutlineLocationOn, MdOutlineDoneAll, MdOutlineCrop } from 'react-icons/md';
+import { FaTree } from 'react-icons/fa';
 
 /**
  * Panel de resumen del procesamiento de datos
@@ -45,12 +47,19 @@ export default function DataProcessingSummary({
   return (
     <div className={styles.processingSummary}>
       <div className={styles.summaryHeader}>
-        <h2>📊 Resumen de Datos Procesados</h2>
+        <h2>
+          <MdAssessment style={{ color: 'var(--color-primary)' }} />
+          Resumen de Datos Procesados
+        </h2>
         <div className={styles.qualityBadge}>
           {validation.isValid ? (
-            <span className={styles.badgeSuccess}>✅ Datos Validados</span>
+            <span className={styles.badgeSuccess}>
+              <MdCheckCircle /> Datos Validados
+            </span>
           ) : (
-            <span className={styles.badgeError}>❌ Datos con Errores</span>
+            <span className={styles.badgeError}>
+              <MdError /> Datos con Errores
+            </span>
           )}
         </div>
       </div>
@@ -58,7 +67,9 @@ export default function DataProcessingSummary({
       {/* Estadísticas Principales */}
       <div className={styles.statsGrid}>
         <div className={styles.statCard}>
-          <div className={styles.statIcon}>🌴</div>
+          <div className={`${styles.statIcon} ${styles.statIconPrimary}`}>
+            <FaTree />
+          </div>
           <div className={styles.statInfo}>
             <span className={styles.statValue}>{totalSpots}</span>
             <span className={styles.statLabel}>Total Spots</span>
@@ -66,7 +77,9 @@ export default function DataProcessingSummary({
         </div>
 
         <div className={styles.statCard}>
-          <div className={styles.statIcon}>📍</div>
+          <div className={`${styles.statIcon} ${styles.statIconAccent}`}>
+            <MdOutlineLocationOn />
+          </div>
           <div className={styles.statInfo}>
             <span className={styles.statValue}>{uniqueLotes}</span>
             <span className={styles.statLabel}>Lotes</span>
@@ -74,7 +87,9 @@ export default function DataProcessingSummary({
         </div>
 
         <div className={styles.statCard}>
-          <div className={styles.statIcon}>📏</div>
+          <div className={`${styles.statIcon} ${styles.statIconPrimary}`}>
+            <MdOutlineCrop />
+          </div>
           <div className={styles.statInfo}>
             <span className={styles.statValue}>{uniqueLineas}</span>
             <span className={styles.statLabel}>Líneas</span>
@@ -82,7 +97,9 @@ export default function DataProcessingSummary({
         </div>
 
         <div className={styles.statCard}>
-          <div className={styles.statIcon}>✅</div>
+          <div className={`${styles.statIcon} ${styles.statIconAccent}`}>
+            <MdOutlineGridView />
+          </div>
           <div className={styles.statInfo}>
             <span className={styles.statValue}>{validation.stats.validRows}</span>
             <span className={styles.statLabel}>Filas Válidas</span>
@@ -92,7 +109,10 @@ export default function DataProcessingSummary({
 
       {/* Desglose por Lote */}
       <div className={styles.loteBreakdown}>
-        <h3>📋 Desglose por Lote</h3>
+        <h3>
+          <MdTerrain style={{ color: 'var(--color-primary)' }} />
+          Desglose por Lote
+        </h3>
         <div className={styles.loteGrid}>
           {Object.entries(spotsByLote).map(([loteId, spots]) => {
             const lineasEnLote = new Set(spots.map(s => s.linea)).size;
@@ -104,10 +124,10 @@ export default function DataProcessingSummary({
                 </div>
                 <div className={styles.loteStats}>
                   <div className={styles.loteStat}>
-                    <span>🌴 {spots.length} spots</span>
+                    <FaTree /> {spots.length} spots
                   </div>
                   <div className={styles.loteStat}>
-                    <span>📏 {lineasEnLote} líneas</span>
+                    <MdOutlineCrop /> {lineasEnLote} líneas
                   </div>
                 </div>
               </div>
@@ -118,7 +138,10 @@ export default function DataProcessingSummary({
 
       {/* Área Geográfica */}
       <div className={styles.geographicInfo}>
-        <h3>🗺️ Área Geográfica</h3>
+        <h3>
+          <MdOutlineLocationOn style={{ color: 'var(--color-primary)' }} />
+          Área Geográfica
+        </h3>
         <div className={styles.boundsInfo}>
           <div className={styles.boundsRow}>
             <span className={styles.boundsLabel}>Latitud:</span>
@@ -137,26 +160,39 @@ export default function DataProcessingSummary({
 
       {/* Garantía de Calidad */}
       <div className={styles.qualityAssurance}>
-        <h3>✅ Garantía de Calidad</h3>
+        <h3>
+          <MdOutlineDoneAll style={{ color: 'var(--color-primary)' }} />
+          Garantía de Calidad
+        </h3>
         <div className={styles.qualityChecks}>
           <div className={styles.qualityCheck}>
-            <span className={styles.checkIcon}>✓</span>
+            <span className={styles.checkIcon}>
+              <MdCheckCircle />
+            </span>
             <span>Datos limpiados y normalizados</span>
           </div>
           <div className={styles.qualityCheck}>
-            <span className={styles.checkIcon}>✓</span>
+            <span className={styles.checkIcon}>
+              <MdCheckCircle />
+            </span>
             <span>Coordenadas validadas (sin duplicados)</span>
           </div>
           <div className={styles.qualityCheck}>
-            <span className={styles.checkIcon}>✓</span>
+            <span className={styles.checkIcon}>
+              <MdCheckCircle />
+            </span>
             <span>Lotes verificados contra la finca</span>
           </div>
           <div className={styles.qualityCheck}>
-            <span className={styles.checkIcon}>✓</span>
+            <span className={styles.checkIcon}>
+              <MdCheckCircle />
+            </span>
             <span>Líneas y posiciones verificadas</span>
           </div>
           <div className={styles.qualityCheck}>
-            <span className={styles.checkIcon}>✓</span>
+            <span className={styles.checkIcon}>
+              <MdCheckCircle />
+            </span>
             <span>Campos obligatorios completos</span>
           </div>
         </div>

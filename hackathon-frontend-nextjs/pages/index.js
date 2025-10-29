@@ -132,6 +132,7 @@ export default function HomePage() {
               <FileUploader
                 onFileUploaded={handleFileUploaded}
                 selectedFinca={selectedFinca}
+                validData={validation.validData}
               />
             </section>
           )}

@@ -182,7 +182,7 @@
 
 .lotesInfo h3 {
   margin: 0 0 1rem 0;
-  color: #667eea;
+  color: var(--color-primary);
   font-size: 1.1rem;
 }
 
@@ -213,8 +213,8 @@
 .mapContainer h2 {
   margin: 0 0 1.5rem 0;
   font-size: 1.5rem;
-  color: #333;
-  border-bottom: 2px solid #667eea;
+  color: var(--color-text-dark);
+  border-bottom: 2px solid var(--color-primary);
   padding-bottom: 0.5rem;
 }
 
@@ -391,6 +391,147 @@
   opacity: 0.9;
 }
 
+.fileUploader {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sectionTitle {
+  margin: 0;
+  color: var(--color-text-dark);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.5rem;
+}
+
+.validDataInfo {
+  background: rgba(192, 27, 39, 0.06);
+  border: 1px solid rgba(192, 27, 39, 0.15);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.dataSummary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.dataSummaryItem {
+  background: white;
+  border: 1px solid rgba(192, 27, 39, 0.15);
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dataSummaryLabel {
+  font-size: 0.85rem;
+  color: rgba(0, 0, 0, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dataSummaryValue {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.noDataMessage {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.uploadButton {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: var(--color-text-light);
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 14px rgba(192, 27, 39, 0.25);
+}
+
+.uploadButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(192, 27, 39, 0.3);
+}
+
+.uploadButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.uploadButtonContent {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.progressBar {
+  width: 100%;
+  height: 14px;
+  background: rgba(192, 27, 39, 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-light);
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: width 0.25s ease;
+}
+
+.spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  border-top: 3px solid var(--color-text-light);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.uploadHelp {
+  margin-top: 1.5rem;
+}
+
 .authHelp {
   margin-top: 1rem;
 }
@@ -408,7 +549,7 @@
 }
 
 .authHelp p {
-  margin: 0.5rem 0 0;
+  margin: 0.5rem 0;
   color: #666;
   line-height: 1.6;
 }
@@ -537,6 +678,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
+  margin: 1.5rem 0;
 }
 
 .resultCard {
@@ -569,8 +711,8 @@
 
 .infoPanel h2 {
   margin: 0 0 1.5rem 0;
-  color: #333;
-  border-bottom: 2px solid #667eea;
+  color: var(--color-text-dark);
+  border-bottom: 2px solid var(--color-primary);
   padding-bottom: 0.5rem;
 }
 
@@ -588,7 +730,7 @@
 }
 
 .infoItem strong {
-  color: #667eea;
+  color: var(--color-primary);
   display: block;
   margin-bottom: 0.5rem;
 }
@@ -616,11 +758,15 @@
 
 /* Step Headers */
 .stepHeader {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: var(--color-text-light);
   padding: 1rem 1.5rem;
   border-radius: 8px;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 .stepHeader h3 {
@@ -1571,8 +1717,11 @@
 
 .summaryHeader h2 {
   margin: 0;
-  color: #333;
+  color: var(--color-text-dark);
   font-size: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .qualityBadge {
@@ -1612,18 +1761,37 @@
   align-items: center;
   gap: 1rem;
   padding: 1.5rem;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s;
+  background: linear-gradient(135deg, rgba(192, 27, 39, 0.12) 0%, rgba(192, 27, 39, 0.05) 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(192, 27, 39, 0.14);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .statCard:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(192, 27, 39, 0.18);
 }
 
 .statIcon {
   font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--color-primary);
+}
+
+.statIconPrimary {
+  background: rgba(192, 27, 39, 0.18);
+  color: var(--color-primary);
+}
+
+.statIconAccent {
+  background: rgba(42, 157, 143, 0.2);
+  color: var(--color-accent);
 }
 
 .statInfo {
@@ -1635,7 +1803,7 @@
 .statValue {
   font-size: 2rem;
   font-weight: 700;
-  color: #667eea;
+  color: var(--color-primary);
   line-height: 1;
 }
 
@@ -1651,9 +1819,12 @@
 }
 
 .loteBreakdown h3 {
-  color: #333;
+  color: var(--color-text-dark);
   margin-bottom: 1rem;
   font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .loteGrid {
@@ -1664,15 +1835,16 @@
 
 .loteCard {
   background: white;
-  border: 2px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  border: 2px solid rgba(192, 27, 39, 0.18);
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
 }
 
 .loteCard:hover {
-  border-color: #667eea;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+  border-color: var(--color-primary);
+  box-shadow: 0 6px 18px rgba(192, 27, 39, 0.2);
+  transform: translateY(-3px);
 }
 
 .loteHeader {
@@ -1688,10 +1860,10 @@
 }
 
 .loteBadge {
-  background: #667eea;
-  color: white;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
+  background: var(--color-accent);
+  color: var(--color-text-light);
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
   font-size: 0.75rem;
   font-weight: 600;
 }
@@ -1708,16 +1880,20 @@
 }
 
 .geographicInfo {
-  margin: 2rem 0;
+  background: linear-gradient(135deg, rgba(42, 157, 143, 0.14) 0%, rgba(42, 157, 143, 0.06) 100%);
+  border-radius: 12px;
   padding: 1.5rem;
-  background: #f8f9fa;
-  border-radius: 8px;
+  margin: 2rem 0;
+  border: 1px solid rgba(42, 157, 143, 0.25);
 }
 
 .geographicInfo h3 {
-  color: #333;
-  margin-bottom: 1rem;
+  margin: 0 0 1rem 0;
+  color: var(--color-text-dark);
   font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .boundsInfo {
@@ -1734,7 +1910,7 @@
 
 .boundsLabel {
   font-weight: 600;
-  color: #666;
+  color: var(--color-primary);
   min-width: 100px;
 }
 
@@ -1747,15 +1923,18 @@
 .qualityAssurance {
   margin: 2rem 0;
   padding: 1.5rem;
-  background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
-  border-radius: 8px;
-  border-left: 4px solid #3b82f6;
+  background: rgba(192, 27, 39, 0.08);
+  border: 1px solid rgba(192, 27, 39, 0.18);
+  border-radius: 12px;
 }
 
 .qualityAssurance h3 {
-  color: #333;
-  margin-bottom: 1rem;
+  margin: 0 0 1rem 0;
+  color: var(--color-text-dark);
   font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .qualityChecks {
@@ -1768,19 +1947,22 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  color: #333;
+  padding: 0.85rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(192, 27, 39, 0.15);
 }
 
 .checkIcon {
-  background: #10b981;
-  color: white;
-  width: 24px;
-  height: 24px;
+  background: var(--color-primary);
+  color: var(--color-text-light);
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+  font-size: 1.25rem;
   flex-shrink: 0;
 }
 

@@ -3,7 +3,13 @@
  * Documentación: https://api.sioma.dev
  */
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.sioma.dev';
+const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'https://api.sioma.dev').replace(/\/$/, '');
+const SPOTS_API_BASE_URL = (process.env.NEXT_PUBLIC_SPOTS_API_URL || 'https://plantizador.sioma.dev/api/v1').replace(/\/$/, '');
+
+const buildApiUrl = (base, path) => {
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  return `${base}/${cleanPath}`;
+};
 
 /**
  * Obtiene el token de autenticación de las variables de entorno
@@ -64,7 +70,7 @@ export const getFincas = async () => {
   }
 
   try {
-    const url = `${API_BASE_URL}/4/usuarios/sujetos`;
+    const url = buildApiUrl(API_BASE_URL, '/4/usuarios/sujetos');
     const headers = {
       'Authorization': token,
       'Content-Type': 'application/json',
@@ -127,7 +133,7 @@ export const getLotes = async (fincaId = null) => {
   }
 
   try {
-    const response = await fetch(`${API_BASE_URL}/4/usuarios/sujetos`, {
+    const response = await fetch(buildApiUrl(API_BASE_URL, '/4/usuarios/sujetos'), {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -241,10 +247,77 @@ export const uploadSpots = async (file, onProgress = null) => {
     });
 
     // Configurar y enviar la petición
-    xhr.open('POST', `${API_BASE_URL}/api/v1/spots/upload`);
+    xhr.open('POST', buildApiUrl(SPOTS_API_BASE_URL, '/spots/upload'));
     xhr.setRequestHeader('Authorization', token);
     xhr.send(formData);
   });
+};
+
+export const uploadValidatedSpots = async (validData, fincaId, onProgress = null) => {
+  if (!Array.isArray(validData) || validData.length === 0) {
+    throw new Error('No hay datos validados para enviar');
+  }
+
+  const effectiveFincaId = fincaId || validData[0]?.finca_id;
+
+  if (!effectiveFincaId) {
+    throw new Error('No se pudo determinar el ID de la finca para los datos enviados');
+  }
+
+  const headers = [
+    'nombre_spot',
+    'lat',
+    'lng',
+    'lote_id',
+    'linea',
+    'posicion',
+    'nombre_planta',
+    'finca_id',
+    'tipo_poligono_id',
+    'distancia',
+    'fecha_siembra',
+    'tipo_variedad_id'
+  ];
+
+  const escapeCsvValue = (value) => {
+    const stringValue = value === null || value === undefined ? '' : String(value);
+    const escaped = stringValue.replace(/"/g, '""');
+    return `"${escaped}"`;
+  };
+
+  const rows = validData.map((spot) => {
+    const nombreSpot = spot.nombre_spot || `L${spot.lote_id}L${spot.linea}S${spot.posicion}`;
+    const nombrePlanta = spot.nombre_planta || `L${spot.lote_id}L${spot.linea}P${spot.posicion}`;
+
+    return [
+      nombreSpot,
+      spot.lat,
+      spot.lng,
+      spot.lote_id,
+      spot.linea,
+      spot.posicion,
+      nombrePlanta,
+      spot.finca_id || effectiveFincaId,
+      spot.tipo_poligono_id ?? 1,
+      spot.distancia ?? 9,
+      spot.fecha_siembra ?? '2006-01-01',
+      spot.tipo_variedad_id ?? 5
+    ].map(escapeCsvValue).join(',');
+  });
+
+  const csvContent = [headers.join(','), ...rows].join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const fileName = `spots_validated_${Date.now()}.csv`;
+
+  let csvFile;
+  if (typeof File !== 'undefined') {
+    csvFile = new File([blob], fileName, { type: 'text/csv' });
+  } else {
+    csvFile = blob;
+    Object.defineProperty(csvFile, 'name', { value: fileName });
+  }
+
+  return uploadSpots(csvFile, onProgress);
 };
 
 /**

@@ -1,20 +1,19 @@
 :root {
-  /* Colores de Marca SIOMA */
+  /* Colores de Marca y Funcionalidad */
   --color-primary: #C01B27; /* Rojo de SIOMA */
   --color-primary-dark: #A31721; /* Variante más oscura del rojo */
-  --color-accent: #2A9D8F; /* Acento para CTA's (verde-azul contrastante) */
+  --color-accent: #2A9D8F; /* Acento para CTA's (un verde-azul contrastante) */
   --color-success: #5CB85C; /* Para mensajes de éxito o validación */
   --color-error: #D9534F; /* Para mensajes de error o advertencia */
   
   /* Colores de Texto y Fondo */
   --color-text-dark: #212121; /* Texto principal oscuro */
-  --color-text-light: #FFFFFF; /* Texto claro */
+  --color-text-light: #FFFFFF; /* Texto claro (usado sobre el rojo o fondos oscuros) */
   --color-gray-subtle: #AAAAAA; /* Texto secundario, bordes sutiles */
   
   /* Colores de Fondo */
-  --color-background-base: #FFFFFF; /* Fondo principal */
+  --color-background-base: #FFFFFF; /* Fondo principal de la página */
   --color-background-secondary: #F5F5F5; /* Fondos de secciones alternas */
-  --color-background-light: #FAFAFA; /* Fondo muy claro */
 }
 
 html,
@@ -23,7 +22,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  background: var(--color-background-secondary);
+  background: var(--color-background-base);
   min-height: 100vh;
   color: var(--color-text-dark);
 }
