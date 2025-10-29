@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getFincas, getLotes } from '../lib/api';
 import styles from '../styles/Home.module.css';
 
 export default function FincaSelector({ onFincaSelect, onLotesLoad }) {
@@ -17,16 +18,14 @@ export default function FincaSelector({ onFincaSelect, onLotesLoad }) {
     setError(null);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/fincas`);
-      
-      if (!response.ok) {
-        throw new Error('Error al cargar las fincas');
-      }
-
-      const data = await response.json();
+      console.log('Intentando cargar fincas...');
+      console.log('API URL:', process.env.NEXT_PUBLIC_API_URL || 'https://api.sioma.dev');
+      const data = await getFincas();
+      console.log('Fincas cargadas:', data);
       setFincas(data);
     } catch (err) {
       setError('Error al cargar fincas: ' + err.message);
+      console.error('Error completo cargando fincas:', err);
     } finally {
       setLoading(false);
     }
@@ -37,7 +36,8 @@ export default function FincaSelector({ onFincaSelect, onLotesLoad }) {
     setSelectedFinca(fincaId);
     
     if (onFincaSelect) {
-      onFincaSelect(fincaId);
+      const selectedFincaData = fincas.find(f => f.id === parseInt(fincaId));
+      onFincaSelect(fincaId, selectedFincaData);
     }
 
     if (fincaId) {
@@ -52,15 +52,7 @@ export default function FincaSelector({ onFincaSelect, onLotesLoad }) {
     setError(null);
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/lotes?finca_id=${fincaId}`
-      );
-      
-      if (!response.ok) {
-        throw new Error('Error al cargar los lotes');
-      }
-
-      const data = await response.json();
+      const data = await getLotes(fincaId);
       setLotes(data);
       
       if (onLotesLoad) {
@@ -68,6 +60,7 @@ export default function FincaSelector({ onFincaSelect, onLotesLoad }) {
       }
     } catch (err) {
       setError('Error al cargar lotes: ' + err.message);
+      console.error('Error cargando lotes:', err);
     } finally {
       setLoading(false);
     }
@@ -76,6 +69,20 @@ export default function FincaSelector({ onFincaSelect, onLotesLoad }) {
   return (
     <div className={styles.fincaSelector}>
       <h2>Seleccionar Finca</h2>
+      
+      {loading && <p className={styles.loading}>⏳ Cargando fincas...</p>}
+      
+      {error && (
+        <div className={styles.errorMessage}>
+          <strong>❌ Error:</strong> {error}
+        </div>
+      )}
+
+      {!loading && !error && fincas.length > 0 && (
+        <div className={styles.successMessage}>
+          ✅ {fincas.length} finca{fincas.length !== 1 ? 's' : ''} cargada{fincas.length !== 1 ? 's' : ''} exitosamente
+        </div>
+      )}
       
       <div className={styles.selectContainer}>
         <select
@@ -87,19 +94,11 @@ export default function FincaSelector({ onFincaSelect, onLotesLoad }) {
           <option value="">-- Selecciona una finca --</option>
           {fincas.map((finca) => (
             <option key={finca.id} value={finca.id}>
-              {finca.nombre}
+              {finca.nombre} {finca.grupo ? `(${finca.grupo})` : ''}
             </option>
           ))}
         </select>
-
-        {loading && <p className={styles.loading}>Cargando...</p>}
       </div>
-
-      {error && (
-        <div className={styles.errorMessage}>
-          {error}
-        </div>
-      )}
 
       {lotes.length > 0 && (
         <div className={styles.lotesInfo}>
