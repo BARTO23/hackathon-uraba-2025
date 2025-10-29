@@ -557,6 +557,10 @@
 /* Section and Layout Styles */
 .header {
   margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 2rem;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);

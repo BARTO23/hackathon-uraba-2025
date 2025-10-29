@@ -8,11 +8,15 @@ Sistema completo de gestión de spots integrado con la API de Sioma. Permite obt
 
 ### 1. Variables de Entorno
 
-Crea un archivo `.env.local` en la raíz del proyecto:
+Crea (o actualiza) el archivo `.env.local` en la raíz del proyecto con los valores del entorno que te entregue SIOMA:
 
 ```bash
 NEXT_PUBLIC_API_URL=https://api.sioma.dev
+NEXT_PUBLIC_SPOTS_API_URL=https://plantizador.sioma.dev/api/v1
+NEXT_PUBLIC_AUTH_TOKEN=PHkRgdWVNhsDjLScW/9zWw==
 ```
+
+> ℹ️ `NEXT_PUBLIC_API_URL` apunta a los catálogos generales (fincas, lotes). `NEXT_PUBLIC_SPOTS_API_URL` es el dominio especializado para la carga de spots.
 
 ### 2. Instalación de Dependencias
 
@@ -26,35 +30,21 @@ npm install
 npm run dev
 ```
 
-La aplicación estará disponible en `http://localhost:3000`
+La aplicación estará disponible en `http://localhost:3000` y leerá las variables cada vez que reinicies el servidor.
 
-## 🔐 Autenticación
 
-### Configurar Token
-
-1. Al abrir la aplicación, verás la sección **"Configuración de Autenticación"**
-2. Ingresa tu token de autenticación de Sioma
-3. Haz clic en **"Guardar y Conectar"**
-4. El sistema verificará automáticamente la conexión con la API
-
-El token se guarda en el `localStorage` del navegador de forma segura.
-
-### Obtener Token
-
-Contacta con el administrador del sistema Sioma para obtener tu token de autenticación.
 
 ## 📡 Endpoints Integrados
 
-### 1. Obtener Fincas
+| Nombre | Método | Dominio base | Ruta | Headers clave | Descripción |
+|--------|--------|--------------|------|---------------|-------------|
+| Obtener Fincas | `GET` | `NEXT_PUBLIC_API_URL` (`https://api.sioma.dev`) | `/4/usuarios/sujetos` | `Authorization`, `Content-Type: application/json`, `tipo-sujetos: [1]` | Devuelve todas las fincas asociadas al token |
+| Obtener Lotes | `GET` | `NEXT_PUBLIC_API_URL` (`https://api.sioma.dev`) | `/4/usuarios/sujetos` | `Authorization`, `Content-Type: application/json`, `tipo-sujetos: [3]` | Devuelve los lotes; se filtran por `finca_id` en el frontend |
+| Subir Spots | `POST` | `NEXT_PUBLIC_SPOTS_API_URL` (`https://plantizador.sioma.dev/api/v1`) | `/spots/upload` | `Authorization`, `Content-Type: multipart/form-data` | Recibe un CSV, lo procesa y devuelve estadísticas |
 
-**Endpoint:** `GET /4/usuarios/sujetos`
+### Ejemplos de Respuesta
 
-**Headers:**
-- `Authorization: {token}`
-- `Content-Type: application/json`
-- `tipo-sujetos: [1]`
-
-**Respuesta:**
+**Fincas / Lotes**
 ```json
 [
   {
@@ -71,47 +61,11 @@ Contacta con el administrador del sistema Sioma para obtener tu token de autenti
 ]
 ```
 
-### 2. Obtener Lotes
-
-**Endpoint:** `GET /4/usuarios/sujetos`
-
-**Headers:**
-- `Authorization: {token}`
-- `Content-Type: application/json`
-- `tipo-sujetos: [3]`
-
-**Respuesta:**
-```json
-[
-  {
-    "key": "lote_id",
-    "key_value": 33958,
-    "nombre": "84-MANCHIS",
-    "grupo": "1 - Palmita",
-    "sigla": "1-PLM",
-    "finca_id": 2362,
-    "tipo_sujeto_id": 3,
-    "tipo_cultivo_id": 2
-  }
-]
-```
-
-### 3. Subir Spots
-
-**Endpoint:** `POST /api/v1/spots/upload`
-
-**Headers:**
-- `Authorization: {token}`
-- `Content-Type: multipart/form-data`
-
-**Body:**
-- `file`: Archivo CSV con spots
-
-**Respuesta Exitosa:**
+**Subir Spots (éxito)**
 ```json
 {
   "status": "success",
-  "message": "Procesamiento completado: 2056 spots insertados...",
+  "message": "Procesamiento completado: 2056 spots insertados, 2056 polígonos generados para finca 2208",
   "data": {
     "spots_inserted": 2056,
     "plantas_inserted": 2056,
@@ -120,6 +74,15 @@ Contacta con el administrador del sistema Sioma para obtener tu token de autenti
     "lineas_triggered": true,
     "finca_id": 2208
   }
+}
+```
+
+**Subir Spots (error de validación)**
+```json
+{
+  "status": "error",
+  "message": "Faltan columnas obligatorias en el CSV: lat, lng",
+  "codigo": "ERROR_MISSING_COLUMNS"
 }
 ```
 
@@ -172,57 +135,58 @@ L29347L50S2,1.572843921,-78.66912547,29347,50,55,L29347L50P55,2208
 - **Límite recomendado**: 10,000 spots por archivo
 - **Formato**: Solo archivos `.csv` (UTF-8 o Latin-1)
 
-## 🎯 Flujo de Uso
+## 🎯 Flujo de Uso End-to-End
 
-### 1. Configurar Autenticación
-```
-Usuario ingresa token → Sistema verifica → Conexión establecida
-```
+1. **Configuración / Autenticación**
+   - `AuthConfig` lee o solicita el token.
+   - `setAuthToken(token)` guarda el valor y las llamadas posteriores usan `getAuthToken()`.
+   - Al guardarse, se disparan `getFincas()` y `getLotes()` para precargar información.
 
-### 2. Seleccionar Finca
-```
-Cargar fincas → Usuario selecciona finca → Cargar lotes de la finca
-```
+2. **Selección de Finca y Lotes**
+   - `FincaSelector` consume `getFincas()`.
+   - Al elegir una finca, se vuelve a invocar `getLotes(fincaId)` para filtrar los lotes disponibles.
 
-### 3. Subir Archivo de Spots
-```
-Seleccionar archivo CSV → Validación automática → Subir → Procesamiento
-```
+3. **Carga y Validación de CSV (Paso 2/3)**
+   - `DataValidator` usa `validateCSV(file)` para inspeccionar columnas, duplicados y consistencia.
+   - El resultado se presenta en `ValidationReport` y se guarda en `validation.validData`.
+   - `LoteMapViewer` utiliza `validData` para representar geográficamente los spots.
 
-### 4. Ver Resultados
-```
-Spots insertados → Plantas creadas → Polígonos generados → Lotes actualizados
-```
+4. **Envío Automático a SIOMA (Paso 4)**
+   - `FileUploader` recibe `validData` y `selectedFinca`.
+   - Al pulsar **Enviar a SIOMA** se ejecuta `uploadValidatedSpots(validData, selectedFinca, onProgress)`.
+     - La función genera un CSV temporal respetando el formato oficial.
+     - Usa `uploadSpots` para emitir un `POST` multipart/form-data al endpoint de SIOMA.
+     - Se reporta progreso en tiempo real y se muestran errores del API si ocurren.
+
+5. **Resultados y Seguimiento**
+   - `handleFileUploaded` persiste el payload devuelto (`spots_inserted`, `polygons_generated`, etc.).
+   - La sección “Resultados del Procesamiento” resume la respuesta y sirve como comprobante.
 
 ## 🛠️ Funciones de API Disponibles
 
 ### Librería: `lib/api.js`
 
+| Función | Descripción | Endpoint utilizado |
+|---------|-------------|--------------------|
+| `setAuthToken(token)` / `removeAuthToken()` | Persiste el token en `localStorage` | N/A |
+| `getAuthToken()` | Recupera el token almacenado | N/A |
+| `getFincas()` | Obtiene fincas activas del usuario | `GET ${NEXT_PUBLIC_API_URL}/4/usuarios/sujetos` (`tipo-sujetos: [1]`) |
+| `getLotes(fincaId?)` | Obtiene lotes y los filtra opcionalmente por finca | `GET ${NEXT_PUBLIC_API_URL}/4/usuarios/sujetos` (`tipo-sujetos: [3]`) |
+| `validateCSV(file)` | Valida un CSV local asegurando columnas requeridas | Cliente (FileReader) |
+| `uploadSpots(file, onProgress?)` | Envía un archivo CSV a SIOMA | `POST ${NEXT_PUBLIC_SPOTS_API_URL}/spots/upload` |
+| `uploadValidatedSpots(validData, fincaId, onProgress?)` | Genera un CSV temporal desde datos limpios y lo sube | `POST ${NEXT_PUBLIC_SPOTS_API_URL}/spots/upload` |
+
+### Ejemplo de uso integrado
+
 ```javascript
-import { 
-  getFincas, 
-  getLotes, 
-  uploadSpots, 
-  validateCSV,
-  setAuthToken,
-  getAuthToken
-} from '../lib/api';
+import { getFincas, getLotes, uploadValidatedSpots } from '../lib/api';
 
-// Obtener fincas
 const fincas = await getFincas();
-
-// Obtener lotes (filtrados por finca)
-const lotes = await getLotes(fincaId);
-
-// Subir spots con progreso
-const result = await uploadSpots(file, (progress) => {
+const lotes = await getLotes(fincas[0].id);
+const result = await uploadValidatedSpots(validData, fincas[0].id, (progress) => {
   console.log(`Progreso: ${progress}%`);
 });
-
-// Validar CSV antes de subir
-const validation = await validateCSV(file);
 ```
-
 ## 🔄 Procesamiento del Backend
 
 Cuando se sube un archivo CSV, el backend realiza:
