@@ -7,6 +7,7 @@ import LoteMapViewer from "../components/LoteMapViewer";
 import FileUploader from "../components/FileUploader";
 import styles from "../styles/Home.module.css";
 import { MdAssessment, MdLocationOn } from 'react-icons/md';
+import Image from 'next/image';
 
 export default function HomePage() {
   const [selectedFinca, setSelectedFinca] = useState(null);
@@ -58,7 +59,17 @@ export default function HomePage() {
 
       <div className={styles.container}>
         <header className={styles.header}>
-          <h1 className={styles.title}>🌱 Sistema de Gestión de Spots</h1>
+          <div className={styles['header-principal']}>
+            <Image
+              src="/img/logo-sioma.png"
+              alt="SIOMA - Sistema de Gestión de Spots"
+              width={60}
+              height={60}
+              priority
+            />
+            <h1 className={styles.title}>Sistema de Gestión de Spots</h1>
+          </div>
+          
           <p className={styles.subtitle}>Plataforma inteligente para gestión de cultivos</p>
         </header>
 
@@ -66,7 +77,7 @@ export default function HomePage() {
           {/* Paso 1: Selector de Finca y Lotes */}
           <section className={styles.section}>
             <div className={styles.stepHeader}>
-              <h3>Paso 1️⃣: Selecciona la Finca</h3>
+              <h3>Paso 1: Selecciona la Finca</h3>
             </div>
             <FincaSelector
               onFincaSelect={handleFincaSelect}

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { getAuthToken } from '../lib/api';
 import styles from '../styles/Home.module.css';
+import { MdScience, MdAutorenew, MdCheckCircle, MdCancel, MdAssessment, MdInfo, MdSearch } from 'react-icons/md';
+import { IoRocketSharp } from 'react-icons/io5';
 
 export default function ApiTester() {
   const [result, setResult] = useState(null);
@@ -30,7 +32,7 @@ export default function ApiTester() {
     const url = 'https://api.sioma.dev/4/usuarios/sujetos';
 
     try {
-      console.log('🧪 Testing API...');
+      console.log('Testing API...');
       console.log('Format:', selectedFormat);
       
       // Construir headers según el formato
@@ -109,7 +111,7 @@ export default function ApiTester() {
     const results = [];
     const url = 'https://api.sioma.dev/4/usuarios/sujetos';
 
-    console.log('🔄 Probando todos los formatos automáticamente...');
+    console.log('Probando todos los formatos automáticamente...');
 
     for (const [formatName, formatFunc] of Object.entries(testFormats)) {
       try {
@@ -167,7 +169,9 @@ export default function ApiTester() {
 
   return (
     <div className={styles.authConfig}>
-      <h3>🧪 Probador de API</h3>
+      <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <MdScience /> Probador de API
+      </h3>
       <p style={{ color: '#666', fontSize: '0.9rem' }}>
         Prueba diferentes formatos de autorización para encontrar el correcto
       </p>
@@ -179,8 +183,8 @@ export default function ApiTester() {
         marginTop: '1rem',
         border: '1px solid #f59e0b'
       }}>
-        <p style={{ margin: 0, fontSize: '0.9rem', color: '#92400e' }}>
-          💡 <strong>Recomendación:</strong> Prueba primero el formato "Bearer" o haz clic en "Probar Todos" para encontrar automáticamente el formato correcto.
+        <p style={{ margin: 0, fontSize: '0.9rem', color: '#92400e', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <MdInfo /> <strong>Recomendación:</strong> Prueba primero el formato "Bearer" o haz clic en "Probar Todos" para encontrar automáticamente el formato correcto.
         </p>
       </div>
 
@@ -209,7 +213,15 @@ export default function ApiTester() {
           className={styles.uploadButton}
           style={{ flex: 1 }}
         >
-          {loading ? '⏳ Probando...' : '🚀 Probar Formato'}
+          {loading ? (
+            <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+              <MdAutorenew className="spin" /> Probando...
+            </span>
+          ) : (
+            <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+              <IoRocketSharp /> Probar Formato
+            </span>
+          )}
         </button>
         
         <button
@@ -218,7 +230,15 @@ export default function ApiTester() {
           className={styles.saveButton}
           style={{ flex: 1 }}
         >
-          {loading ? '⏳ Probando...' : '🔄 Probar Todos'}
+          {loading ? (
+            <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+              <MdAutorenew className="spin" /> Probando...
+            </span>
+          ) : (
+            <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+              <MdAutorenew /> Probar Todos
+            </span>
+          )}
         </button>
       </div>
 
@@ -227,7 +247,9 @@ export default function ApiTester() {
           {result.success ? (
             <div className={styles.successMessage}>
               <h4 style={{ margin: '0 0 0.5rem 0' }}>
-                ✅ ¡Éxito! (Status: {result.status})
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <MdCheckCircle /> ¡Éxito! (Status: {result.status})
+                </span>
               </h4>
               <p style={{ margin: '0.5rem 0' }}>
                 <strong>Formato correcto:</strong> {result.format}
@@ -253,7 +275,9 @@ export default function ApiTester() {
           ) : (
             <div className={styles.errorMessage}>
               <h4 style={{ margin: '0 0 0.5rem 0' }}>
-                ❌ Error {result.status ? `(Status: ${result.status})` : ''}
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <MdCancel /> Error {result.status ? `(Status: ${result.status})` : ''}
+                </span>
               </h4>
               <p style={{ margin: '0.5rem 0' }}>
                 <strong>Formato probado:</strong> {result.format}
@@ -262,7 +286,7 @@ export default function ApiTester() {
                 <strong>Mensaje:</strong> {result.message}
               </p>
               <p style={{ margin: '1rem 0 0', fontSize: '0.9rem', opacity: 0.8 }}>
-                💡 Prueba otro formato o verifica tu token con el administrador
+                Sugerencia: Prueba otro formato o verifica tu token con el administrador
               </p>
             </div>
           )}
@@ -274,7 +298,9 @@ export default function ApiTester() {
           {autoTestResults.success ? (
             <div className={styles.successMessage}>
               <h4 style={{ margin: '0 0 0.5rem 0' }}>
-                🎉 ¡Formato Encontrado!
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <MdCheckCircle /> ¡Formato Encontrado!
+                </span>
               </h4>
               <p style={{ margin: '0.5rem 0', fontSize: '1.1rem' }}>
                 <strong>Formato correcto: "{autoTestResults.correctFormat}"</strong>
@@ -284,10 +310,12 @@ export default function ApiTester() {
               </p>
               
               <div style={{ marginTop: '1rem', padding: '1rem', background: 'rgba(255,255,255,0.5)', borderRadius: '6px' }}>
-                <p style={{ margin: '0 0 0.5rem', fontWeight: '600' }}>📊 Resultados de pruebas:</p>
+                <p style={{ margin: '0 0 0.5rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <MdAssessment /> Resultados de pruebas:
+                </p>
                 {autoTestResults.results.map((r, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
-                    <span>{r.success ? '✅' : '❌'}</span>
+                    <span>{r.success ? <MdCheckCircle color="#10b981" /> : <MdCancel color="#ef4444" />}</span>
                     <span style={{ fontFamily: 'monospace' }}>{r.format}</span>
                     <span style={{ color: '#666' }}>- Status: {r.status}</span>
                   </div>
@@ -316,7 +344,9 @@ export default function ApiTester() {
           ) : (
             <div className={styles.errorMessage}>
               <h4 style={{ margin: '0 0 0.5rem 0' }}>
-                ❌ Ningún formato funcionó
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <MdCancel /> Ningún formato funcionó
+                </span>
               </h4>
               <p style={{ margin: '0.5rem 0' }}>
                 Se probaron todos los formatos disponibles y ninguno fue aceptado por la API.
@@ -334,7 +364,9 @@ export default function ApiTester() {
               </div>
               
               <div style={{ marginTop: '1rem', padding: '1rem', background: '#fff3cd', borderRadius: '6px', color: '#856404' }}>
-                <p style={{ margin: '0 0 0.5rem', fontWeight: '600' }}>🔍 Posibles causas:</p>
+                <p style={{ margin: '0 0 0.5rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <MdSearch /> Posibles causas:
+                </p>
                 <ul style={{ margin: '0.5rem 0', paddingLeft: '1.5rem' }}>
                   <li>El token es inválido o ha expirado</li>
                   <li>El token no tiene permisos para este endpoint</li>
@@ -342,7 +374,7 @@ export default function ApiTester() {
                   <li>Hay un problema de CORS</li>
                 </ul>
                 <p style={{ margin: '0.5rem 0 0', fontSize: '0.9rem' }}>
-                  💡 Contacta al administrador de la API con esta información.
+                  Sugerencia: Contacta al administrador de la API con esta información.
                 </p>
               </div>
             </div>
@@ -352,8 +384,8 @@ export default function ApiTester() {
 
       <div style={{ marginTop: '1.5rem', padding: '1rem', background: '#f9fafb', borderRadius: '8px' }}>
         <details>
-          <summary style={{ cursor: 'pointer', fontWeight: '600', color: '#667eea' }}>
-            ℹ️ Información de debugging
+          <summary style={{ cursor: 'pointer', fontWeight: '600', color: '#667eea', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <MdInfo /> Información de debugging
           </summary>
           <div style={{ marginTop: '0.5rem', fontSize: '0.9rem', color: '#666' }}>
             <p><strong>Token actual:</strong> {getAuthToken() ? getAuthToken().substring(0, 20) + '...' : 'No configurado'}</p>
