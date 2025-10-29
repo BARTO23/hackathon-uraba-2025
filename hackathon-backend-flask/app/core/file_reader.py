@@ -1,28 +1,48 @@
 import pandas as pd
-from io import BytesIO
+import io
 
+# Columnas base esperadas en el archivo del usuario
+EXPECTED_COLUMNS = ['Latitud', 'Longitud', 'Línea palma', 'Posición palma', 'Lote']
 
-def read_file(file):
+def read_spot_file(file_content: bytes, filename: str) -> pd.DataFrame:
     """
-    Leer archivo CSV o Excel usando Pandas
-    
-    Args:
-        file: FileStorage object de Flask
-        
-    Returns:
-        DataFrame de pandas con los datos del archivo
+    Lee el contenido de un archivo CSV o Excel y lo convierte a un DataFrame de Pandas.
     """
-    filename = file.filename.lower()
-    
     try:
         if filename.endswith('.csv'):
-            df = pd.read_csv(file)
-        elif filename.endswith(('.xlsx', '.xls')):
-            df = pd.read_excel(file, engine='openpyxl')
+            # Decodificar bytes a string para read_csv (usando utf-8-sig por si acaso)
+            df = pd.read_csv(io.StringIO(file_content.decode('utf-8-sig')))
+        elif filename.endswith(('.xls', '.xlsx')):
+            # BytesIO funciona directamente con read_excel
+            df = pd.read_excel(io.BytesIO(file_content), engine='openpyxl')
         else:
-            raise ValueError('Formato de archivo no soportado. Use CSV o Excel.')
+            raise ValueError("Formato de archivo no soportado. Usar .csv o .xlsx")
         
-        return df
+        # 1. Validar que las columnas existan
+        for col in EXPECTED_COLUMNS:
+            if col not in df.columns:
+                raise ValueError(f"Columna faltante en el archivo: '{col}'")
         
+        # 2. Renombrar columnas para consistencia interna
+        df_renamed = df.rename(columns={
+            'Latitud': 'lat',
+            'Longitud': 'lon',
+            'Línea palma': 'linea',
+            'Posición palma': 'posicion',
+            'Lote': 'lote_nombre'
+        })
+        
+        # 3. Limpieza básica
+        df_renamed['lote_nombre'] = df_renamed['lote_nombre'].astype(str).str.strip()
+        df_renamed['lat'] = pd.to_numeric(df_renamed['lat'], errors='coerce')
+        df_renamed['lon'] = pd.to_numeric(df_renamed['lon'], errors='coerce')
+        df_renamed['linea'] = pd.to_numeric(df_renamed['linea'], errors='coerce')
+        df_renamed['posicion'] = pd.to_numeric(df_renamed['posicion'], errors='coerce')
+
+        # 4. Añadir la fila original para reportar errores
+        df_renamed['fila_original'] = df_renamed.index + 2
+        
+        return df_renamed
+
     except Exception as e:
-        raise Exception(f'Error al leer el archivo: {str(e)}')
+        raise ValueError(f"Error al procesar el archivo: {str(e)}")

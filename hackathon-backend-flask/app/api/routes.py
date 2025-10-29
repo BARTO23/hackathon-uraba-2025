@@ -1,94 +1,73 @@
 from flask import request, jsonify
-from app.api import bp as api_v1
-from app.core.file_reader import read_file
-from app.core.validator import validate_data, transform_for_sioma
-from app.core.sioma_client import get_fincas, get_lotes, submit_to_sioma
+from app.api import bp
+from app.core import file_reader, validator, sioma_client
+import pandas as pd
 
-
-@api_v1.route('/', methods=['GET'])
-def index():
-    return "¡Bienvenido al Backend del Hackathon Urabá 2025!"
-
-
-@api_v1.route('/fincas', methods=['GET'])
-def get_fincas_route():
-    """
-    Obtener lista de fincas desde la API de Sioma
-    """
+@bp.route('/fincas', methods=['GET'])
+def get_fincas():
     try:
-        fincas = get_fincas()
+        fincas = sioma_client.get_fincas_from_sioma()
         return jsonify(fincas), 200
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 502 
 
-
-@api_v1.route('/lotes', methods=['GET'])
-def get_lotes_route():
-    """
-    Obtener lista de lotes desde la API de Sioma
-    Puede recibir finca_id como query parameter
-    """
+@bp.route('/lotes/<int:finca_id>', methods=['GET'])
+def get_lotes_por_finca(finca_id):
     try:
-        finca_id = request.args.get('finca_id')
-        lotes = get_lotes(finca_id)
-        return jsonify(lotes), 200
+        todos_los_lotes = sioma_client.get_all_lotes_from_sioma()
+        lotes_filtrados = [
+            lote for lote in todos_los_lotes 
+            if lote["finca_id"] == finca_id
+        ]
+        return jsonify(lotes_filtrados), 200
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 502
 
-
-@api_v1.route('/validate-file', methods=['POST'])
-def validate_file_route():
-    """
-    Validar archivo CSV/Excel cargado
-    """
+@bp.route('/validate-file', methods=['POST'])
+def validate_file_endpoint():
     try:
         if 'file' not in request.files:
-            return jsonify({'error': 'No se encontró el archivo'}), 400
-        
+            return jsonify({"error": "No se encontró el archivo"}), 400
+        if 'finca_id' not in request.form:
+            return jsonify({"error": "No se especificó la finca_id"}), 400
+
         file = request.files['file']
-        if file.filename == '':
-            return jsonify({'error': 'No se seleccionó ningún archivo'}), 400
+        finca_id = int(request.form['finca_id'])
         
-        # Leer el archivo
-        df = read_file(file)
+        all_lotes_data = sioma_client.get_all_lotes_from_sioma()
         
-        # Validar datos
-        validation_result = validate_data(df)
+        file_content = file.read()
+        df_usuario = file_reader.read_spot_file(file_content, file.filename)
         
-        if validation_result['valid']:
-            return jsonify({
-                'valid': True,
-                'message': 'Archivo válido',
-                'data': df.to_dict(orient='records')
-            }), 200
-        else:
-            return jsonify({
-                'valid': False,
-                'errors': validation_result['errors']
-            }), 400
-            
+        validation_result = validator.run_validations_and_transform(
+            df_usuario, finca_id, all_lotes_data
+        )
+
+        if validation_result["status"] == "error":
+            return jsonify({"errors": validation_result["errors"]}), 400
+        
+        return jsonify(validation_result), 200
+
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": f"Error interno: {str(e)}"}), 500
 
-
-@api_v1.route('/submit', methods=['POST'])
-def submit_route():
-    """
-    Enviar datos transformados a la API de Sioma
-    """
+@bp.route('/submit-validated-data', methods=['POST'])
+def submit_validated_data():
     try:
-        data = request.json
+        data_for_submit = request.get_json()
+        if not data_for_submit:
+            return jsonify({"error": "No se recibieron datos (JSON vacío)"}), 400
+            
+        df_transformed = pd.DataFrame(data_for_submit)
         
-        if not data:
-            return jsonify({'error': 'No se recibieron datos'}), 400
+        # Esta es la función que ahora tiene la depuración
+        sioma_response = sioma_client.send_data_to_sioma(df_transformed)
         
-        # Transformar datos para Sioma
-        transformed_data = transform_for_sioma(data)
-        
-        # Enviar a Sioma
-        result = submit_to_sioma(transformed_data)
-        
-        return jsonify(result), 200
-        
+        return jsonify({
+            "status": "enviado",
+            "message": "Datos enviados exitosamente a Sioma.",
+            "response_sioma": sioma_response
+        }), 200
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        # Aquí capturamos los errores del 'sioma_client'
+        return jsonify({"error": f"Error al enviar a Sioma: {str(e)}"}), 502
