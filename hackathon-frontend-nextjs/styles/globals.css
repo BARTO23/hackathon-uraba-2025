@@ -25,3 +25,49 @@ input,
 select {
   font-family: inherit;
 }
+
+/* Estilos ultra-ligeros para iconos de palmas - Optimizado para rendimiento */
+.custom-palm-icon {
+  background: none !important;
+  border: none !important;
+}
+
+.palm-marker {
+  width: 16px;
+  height: 16px;
+  position: relative;
+  cursor: pointer;
+  will-change: transform;
+}
+
+.palm-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ef4444;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: all 0.15s ease;
+}
+
+.palm-marker.selected .palm-dot {
+  background: #10b981;
+  width: 14px;
+  height: 14px;
+  top: 1px;
+  left: 1px;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.5);
+}
+
+.palm-marker:hover .palm-dot {
+  transform: scale(1.2);
+}
+
+/* Estilos para Leaflet - Fix iconos por defecto */
+.leaflet-div-icon {
+  background: transparent;
+  border: none;
+}

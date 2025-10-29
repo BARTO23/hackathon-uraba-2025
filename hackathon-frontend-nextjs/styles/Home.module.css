@@ -263,6 +263,1528 @@
   margin: 0;
 }
 
+/* Auth Config Styles */
+.authConfig {
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.authHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.authHeader h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.3rem;
+}
+
+.authStatus {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.statusConnected {
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.configButton {
+  background: #f3f4f6;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.configButton:hover {
+  background: #e5e7eb;
+}
+
+.authForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.authDescription {
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inputGroup label {
+  font-weight: 600;
+  color: #333;
+}
+
+.tokenInput {
+  padding: 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.tokenInput:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.authActions {
+  display: flex;
+  gap: 1rem;
+}
+
+.saveButton {
+  flex: 1;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.saveButton:hover {
+  opacity: 0.9;
+}
+
+.saveButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.removeButton {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.removeButton:hover {
+  opacity: 0.9;
+}
+
+.authHelp {
+  margin-top: 1rem;
+}
+
+.authHelp details {
+  background: #f9fafb;
+  padding: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.authHelp summary {
+  font-weight: 600;
+  color: #667eea;
+}
+
+.authHelp p {
+  margin: 0.5rem 0 0;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Section and Layout Styles */
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  width: 100%;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.section {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+/* File Uploader Additional Styles */
+.fileInfo {
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  margin: 0.5rem 0;
+}
+
+.fileDetails {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0.5rem 0 0;
+}
+
+.progressBar {
+  width: 100%;
+  height: 30px;
+  background: #e5e7eb;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  transition: width 0.3s ease;
+}
+
+.uploadHelp {
+  margin-top: 1.5rem;
+}
+
+.uploadHelp details {
+  background: #f9fafb;
+  padding: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.uploadHelp summary {
+  font-weight: 600;
+  color: #667eea;
+}
+
+.helpContent {
+  margin-top: 1rem;
+  color: #666;
+}
+
+.helpContent p {
+  margin: 0.5rem 0;
+}
+
+.helpContent ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.helpContent li {
+  margin: 0.25rem 0;
+  line-height: 1.6;
+}
+
+.helpContent code {
+  background: #e5e7eb;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+/* Upload Result Styles */
+.uploadResult {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.uploadResult h2 {
+  margin: 0 0 1.5rem 0;
+  color: #333;
+  border-bottom: 2px solid #22c55e;
+  padding-bottom: 0.5rem;
+}
+
+.resultGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.resultCard {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1.5rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: white;
+}
+
+.resultLabel {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.resultValue {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* Info Panel Styles */
+.infoPanel {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.infoPanel h2 {
+  margin: 0 0 1.5rem 0;
+  color: #333;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 0.5rem;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.infoItem {
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  color: #333;
+}
+
+.infoItem strong {
+  color: #667eea;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* Welcome Message */
+.welcomeMessage {
+  background: white;
+  border-radius: 12px;
+  padding: 3rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.welcomeMessage h2 {
+  margin: 0 0 1rem 0;
+  color: #333;
+}
+
+.welcomeMessage p {
+  color: #666;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Step Headers */
+.stepHeader {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.stepHeader h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+/* Data Validator Styles */
+.dataValidator {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.validatorInstructions {
+  background: #f0f9ff;
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+  margin-bottom: 1.5rem;
+}
+
+.validatorInstructions p {
+  margin: 0.5rem 0;
+  color: #1e40af;
+}
+
+.fileSection {
+  margin: 1.5rem 0;
+}
+
+.fileLabel {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.fileLabel:hover {
+  opacity: 0.9;
+}
+
+.fileInput {
+  display: none;
+}
+
+.fileInfo {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.fileInfo p {
+  margin: 0.25rem 0;
+  color: #666;
+}
+
+.validateButton {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: opacity 0.2s;
+}
+
+.validateButton:hover {
+  opacity: 0.9;
+}
+
+.validateButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.warningMessage {
+  background: #fffbea;
+  color: #92400e;
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid #f59e0b;
+  margin-top: 1rem;
+}
+
+.parsingInfo {
+  background: #ecfdf5;
+  color: #065f46;
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid #10b981;
+  margin-top: 1rem;
+}
+
+.parsingInfo p {
+  margin: 0.25rem 0;
+}
+
+.expectedColumns {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.columnsInfo {
+  padding: 1rem 0;
+}
+
+.columnsInfo ul {
+  list-style: none;
+  padding: 0;
+}
+
+.columnsInfo li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.columnsInfo code {
+  background: #e5e7eb;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-weight: 600;
+}
+
+/* Validation Report Styles */
+.validationReport {
+  width: 100%;
+}
+
+.summaryCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.summaryCard {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+}
+
+.summaryCard.success {
+  border-color: #10b981;
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+}
+
+.summaryCard.error {
+  border-color: #ef4444;
+  background: linear-gradient(135deg, #fee 0%, #fecaca 100%);
+}
+
+.summaryCard.warning {
+  border-color: #f59e0b;
+  background: linear-gradient(135deg, #fffbea 0%, #fef3c7 100%);
+}
+
+.summaryIcon {
+  font-size: 2rem;
+}
+
+.summaryContent {
+  flex: 1;
+}
+
+.summaryLabel {
+  font-size: 0.85rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.summaryValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.summaryMessages {
+  background: #f9fafb;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.summaryMessage {
+  padding: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.errorsByType {
+  margin: 2rem 0;
+}
+
+.errorTypeCard {
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  border: 2px solid #e5e7eb;
+  overflow: hidden;
+}
+
+.errorTypeCard.errorType {
+  border-color: #fecaca;
+}
+
+.errorTypeCard.warningType {
+  border-color: #fef3c7;
+}
+
+.errorTypeHeader {
+  padding: 1rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s;
+}
+
+.errorTypeHeader:hover {
+  background: #f9fafb;
+}
+
+.errorTypeTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.errorTypeName {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.errorTypeCount {
+  color: #666;
+}
+
+.expandIcon {
+  color: #666;
+}
+
+.errorTypeDetails {
+  padding: 1rem;
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+}
+
+.affectedRows {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.errorDetailsList {
+  margin: 2rem 0;
+}
+
+.errorTable {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+}
+
+.errorTableHeader {
+  display: grid;
+  grid-template-columns: 80px 150px 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f9fafb;
+  font-weight: 600;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.errorTableRow {
+  display: grid;
+  grid-template-columns: 80px 150px 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.errorTableRow.errorRow {
+  background: #fee;
+}
+
+.errorTableRow.warningRow {
+  background: #fffbea;
+}
+
+.errorCol1,
+.errorCol2,
+.errorCol3 {
+  display: flex;
+  align-items: center;
+}
+
+.rowNumber {
+  background: #667eea;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.issueType {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.issueMessage {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.toggleButton {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.toggleButton:hover {
+  background: #e5e7eb;
+}
+
+.reportActions {
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.correctionNotice {
+  background: #fffbea;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #f59e0b;
+}
+
+.correctionNotice h4 {
+  margin: 0 0 0.5rem 0;
+  color: #92400e;
+}
+
+.correctionNotice p {
+  margin: 0;
+  color: #78350f;
+}
+
+.downloadButton {
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.downloadButton:hover {
+  opacity: 0.9;
+}
+
+.continueButton {
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.continueButton:hover {
+  opacity: 0.9;
+}
+
+.correctionInstructions {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.instructionsContent {
+  padding: 1rem 0;
+  color: #666;
+}
+
+.instructionsContent ol {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.instructionsContent li {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+
+.instructionsContent ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.revalidateSection {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.resetButton {
+  padding: 1rem 2rem;
+  background: #f3f4f6;
+  border: 2px solid #667eea;
+  color: #667eea;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.resetButton:hover {
+  background: #667eea;
+  color: white;
+}
+
+/* Lote Map Viewer Styles */
+.loteMapViewer {
+  width: 100%;
+}
+
+.loteSelector {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.loteSelector label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.loteStats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.statCard {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.statLabel {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+.statValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.mapLegend {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.mapLegend h4 {
+  margin: 0 0 1rem 0;
+}
+
+.legendItems {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legendIcon {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+.lineasList {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.lineasGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.lineaCard {
+  background: white;
+  padding: 1rem;
+  border-radius: 6px;
+  border: 2px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.lineaCard strong {
+  color: #667eea;
+}
+
+.lineaCard span {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Success Info Styles - Sistema Automático */
+.successInfo {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border: 3px solid #10b981;
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.successInfo h3 {
+  color: #065f46;
+  margin: 0 0 1.25rem 0;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.successMessage {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid #10b981;
+}
+
+.successText {
+  color: #065f46;
+  font-size: 1.125rem;
+  margin: 0 0 0.75rem 0;
+  font-weight: 600;
+}
+
+.successSubtext {
+  color: #059669;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.statsTitle {
+  color: #065f46;
+  font-size: 1rem;
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+}
+
+.autoNote {
+  background: rgba(16, 185, 129, 0.1);
+  padding: 1rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+}
+
+.autoNote p {
+  margin: 0;
+  color: #065f46;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Cleaning Info Styles */
+.cleaningInfo {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border: 2px solid #10b981;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.cleaningInfo h3 {
+  color: #065f46;
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+}
+
+.cleaningStats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.cleaningStat {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.cleaningIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.cleaningText {
+  color: #333;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.cleaningNote {
+  color: #065f46;
+  font-size: 0.85rem;
+  margin: 0.5rem 0 0 0;
+  font-style: italic;
+}
+
+/* Lot Visualization Styles (PalmPoint Style) */
+.lotVisualization {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  overflow: hidden;
+}
+
+.visualizationTitle {
+  font-size: 1.75rem;
+  color: #333;
+  margin: 0 0 0.5rem 0;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+}
+
+.visualizationSubtitle {
+  font-size: 0.95rem;
+  color: #666;
+  margin: 0 0 1.5rem 0;
+  padding: 0 1.5rem;
+}
+
+.visualizationContainer {
+  display: flex;
+  height: 700px;
+  gap: 0;
+}
+
+/* Side Panel (Left) */
+.sidePanel {
+  width: 320px;
+  background: #f8f9fa;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.lotSelector {
+  padding: 1.5rem;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.selectorLabel {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.lotDropdown {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.lotDropdown:hover {
+  border-color: #667eea;
+}
+
+.lotDropdown:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.lotInformation {
+  padding: 1.5rem;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.infoTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #999;
+  margin: 0 0 1rem 0;
+  letter-spacing: 1px;
+}
+
+.lotIdDisplay {
+  font-size: 1.125rem;
+  color: #333;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.lotIdDisplay strong {
+  color: #667eea;
+  font-weight: 700;
+}
+
+.lotMetrics {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.metric {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.metricLabel {
+  font-size: 0.75rem;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metricValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.pointsAndLines {
+  flex: 1;
+  padding: 1.5rem;
+  background: white;
+  overflow-y: auto;
+}
+
+.pointsTitle {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #666;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pointsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pointItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  background: #f8f9fa;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pointItem:hover {
+  background: #e0f2fe;
+  border-color: #667eea;
+  transform: translateX(2px);
+}
+
+.pointItemSelected {
+  background: #dbeafe;
+  border-color: #667eea;
+  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2);
+}
+
+.pointIcon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.pointInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.pointId {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.pointLine {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.pointArrow {
+  font-size: 1.5rem;
+  color: #ccc;
+  flex-shrink: 0;
+}
+
+.morePoints {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* Map Panel (Right) */
+.mapPanel {
+  flex: 1;
+  position: relative;
+  background: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+}
+
+.mapInfo {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  border-bottom: 2px solid #047857;
+}
+
+.mapBadge {
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mapCoords {
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  backdrop-filter: blur(10px);
+}
+
+.mapContainer {
+  flex: 1;
+  width: 100%;
+  position: relative;
+}
+
+/* DataProcessingSummary Styles */
+.processingSummary {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.summaryHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.summaryHeader h2 {
+  margin: 0;
+  color: #333;
+  font-size: 1.75rem;
+}
+
+.qualityBadge {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.badgeSuccess {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.badgeError {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
+}
+
+.statCard:hover {
+  transform: translateY(-2px);
+}
+
+.statIcon {
+  font-size: 2.5rem;
+}
+
+.statInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.statValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #667eea;
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.85rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.loteBreakdown {
+  margin: 2rem 0;
+}
+
+.loteBreakdown h3 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.loteGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.loteCard {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.loteCard:hover {
+  border-color: #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
+.loteHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.loteHeader strong {
+  color: #333;
+  font-size: 1rem;
+}
+
+.loteBadge {
+  background: #667eea;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.loteStats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.loteStat {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.geographicInfo {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.geographicInfo h3 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.boundsInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.boundsRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.boundsLabel {
+  font-weight: 600;
+  color: #666;
+  min-width: 100px;
+}
+
+.boundsValue {
+  color: #333;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+}
+
+.qualityAssurance {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+  border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+}
+
+.qualityAssurance h3 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.qualityChecks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.qualityCheck {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #333;
+}
+
+.checkIcon {
+  background: #10b981;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.validationMessages {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #f0f9ff;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.summaryMessage {
+  margin: 0.5rem 0;
+  color: #333;
+  font-size: 0.95rem;
+}
+
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr;
@@ -278,5 +1800,84 @@
 
   .map {
     height: 400px;
+  }
+
+  .resultGrid,
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .authActions {
+    flex-direction: column;
+  }
+
+  .summaryCards {
+    grid-template-columns: 1fr;
+  }
+
+  .errorTableHeader,
+  .errorTableRow {
+    grid-template-columns: 60px 100px 1fr;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .loteStats {
+    grid-template-columns: 1fr;
+  }
+
+  .lineasGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .loteGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .boundsRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .visualizationContainer {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidePanel {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+    max-height: 400px;
+  }
+
+  .mapPanel {
+    height: 500px;
+  }
+
+  .mapInfo {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+    padding: 0.75rem 1rem;
+  }
+
+  .mapCoords {
+    font-size: 0.75rem;
+  }
+
+  .pointsList {
+    max-height: 200px;
+    overflow-y: auto;
   }
 }
