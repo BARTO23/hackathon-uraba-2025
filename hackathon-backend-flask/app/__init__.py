@@ -6,7 +6,7 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    CORS(app, resources={ r"/api/*": {"origins": "http://localhost:3000"} })
+    CORS(app) # Abierto a todo por ahora para pruebas
 
     from app.api import bp as api_blueprint
     app.register_blueprint(api_blueprint, url_prefix='/api/v1')

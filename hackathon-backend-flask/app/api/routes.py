@@ -9,19 +9,8 @@ def get_fincas():
         fincas = sioma_client.get_fincas_from_sioma()
         return jsonify(fincas), 200
     except Exception as e:
+        print(f"Error en /fincas: {str(e)}")
         return jsonify({"error": str(e)}), 502 
-
-@bp.route('/lotes/<int:finca_id>', methods=['GET'])
-def get_lotes_por_finca(finca_id):
-    try:
-        todos_los_lotes = sioma_client.get_all_lotes_from_sioma()
-        lotes_filtrados = [
-            lote for lote in todos_los_lotes 
-            if lote["finca_id"] == finca_id
-        ]
-        return jsonify(lotes_filtrados), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 502
 
 @bp.route('/validate-file', methods=['POST'])
 def validate_file_endpoint():
@@ -34,6 +23,7 @@ def validate_file_endpoint():
         file = request.files['file']
         finca_id = int(request.form['finca_id'])
         
+        # Esta llamada ahora fallará si la ruta de lotes es incorrecta
         all_lotes_data = sioma_client.get_all_lotes_from_sioma()
         
         file_content = file.read()
@@ -49,6 +39,7 @@ def validate_file_endpoint():
         return jsonify(validation_result), 200
 
     except Exception as e:
+        print(f"Error en /validate-file: {str(e)}")
         return jsonify({"error": f"Error interno: {str(e)}"}), 500
 
 @bp.route('/submit-validated-data', methods=['POST'])
@@ -56,11 +47,10 @@ def submit_validated_data():
     try:
         data_for_submit = request.get_json()
         if not data_for_submit:
-            return jsonify({"error": "No se recibieron datos (JSON vacío)"}), 400
+            return jsonify({"error": "No se recibieron datos"}), 400
             
         df_transformed = pd.DataFrame(data_for_submit)
         
-        # Esta es la función que ahora tiene la depuración
         sioma_response = sioma_client.send_data_to_sioma(df_transformed)
         
         return jsonify({
@@ -69,5 +59,5 @@ def submit_validated_data():
             "response_sioma": sioma_response
         }), 200
     except Exception as e:
-        # Aquí capturamos los errores del 'sioma_client'
+        print(f"Error en /submit-validated-data: {str(e)}")
         return jsonify({"error": f"Error al enviar a Sioma: {str(e)}"}), 502
